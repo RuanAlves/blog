@@ -1,5 +1,4 @@
 defmodule BlogWeb.Telemetry do
-
   @moduledoc """
   Telemetry
   """
