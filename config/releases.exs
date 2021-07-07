@@ -26,4 +26,4 @@ config :blog, BlogWeb.Endpoint,
   ],
   secret_key_base: secret_key_base
 
-  config :blog, BlogWeb.Endpoint, server: true
+config :blog, BlogWeb.Endpoint, server: true
