@@ -1,13 +1,13 @@
 defmodule Blog.MixProject do
   use Mix.Project
 
-  @github_url "O repositório git do seu projeto "
+  @github_url "https://github.com/RuanAlves/blog"
 
   def project do
     [
       app: :blog,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.11",
 
       ## [INICIO] DOCUMENTAÇÃO DO PROJETO
       description: "Projeto para aprender fundamentos do phoenix com elixir ",
