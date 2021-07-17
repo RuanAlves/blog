@@ -64,6 +64,7 @@ defmodule BlogWeb.PostController do
     - Imprima o 3 elemento da lista
     - Imprima o 5 elemento da lista e o segundo elemento da Tupla​
   """
+  # coveralls-ignore-start
   def _new_exercicios(conn, _params) do
     # Jeito que fiz
     terceiro_elemento_lista = Enum.at(conn.req_headers, 3)
@@ -80,4 +81,5 @@ defmodule BlogWeb.PostController do
 
     render(conn, "new.html")
   end
+  # coveralls-ignore-stop
 end
