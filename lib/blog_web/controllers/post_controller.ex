@@ -48,14 +48,16 @@ defmodule BlogWeb.PostController do
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do
-    case Posts.update_post(id, post_params) do
+    post_orig = Posts.get_post!(id)
+
+    case Posts.update_post(post_orig, post_params) do
       {:ok, post_changeset} ->
         conn
         |> put_flash(:info, "Post atualizado com sucesso!")
         |> redirect(to: Routes.post_path(conn, :show, post_changeset))
 
       {:error, changeset} ->
-        render(conn, "new.html", changest: changeset)
+        render(conn, "edit.html", changeset: changeset, post: post_orig)
     end
   end
 
@@ -81,5 +83,6 @@ defmodule BlogWeb.PostController do
 
     render(conn, "new.html")
   end
+
   # coveralls-ignore-stop
 end
