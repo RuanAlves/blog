@@ -7,6 +7,11 @@ defmodule Blog.Posts do
 
   def get_post!(id), do: Repo.get!(Post, id)
 
+  def get_post_with_comments!(id) do
+    get_post!(id)
+    |> Repo.preload(:comments)
+  end
+
   def create_post(attrs \\ %{}) do
     %Post{}
     # Retorna um changeset, ou seja o post é um changeset com estrutura de um post
