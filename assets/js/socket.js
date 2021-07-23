@@ -60,9 +60,31 @@ const createSocket = (post_id) => {
 
   let channel = socket.channel(`comments:${post_id}`, {})
   channel.join()
-    .receive("ok", resp => { console.log("Joined successfully", resp) })
+    .receive("ok", resp => { 
+      pegarComentarios(resp.comments)
+    })
     .receive("error", resp => { console.log("Unable to join", resp) })
+
+    document.getElementById("btn-comentar").addEventListener("click", () => {
+      const content = document.getElementById("comentario").value
+      channel.push("comment:add", {content: content})
+      document.getElementById("comentario").value = ""
+    })
     
+
+}
+
+function pegarComentarios(commentarios) {
+  const listaDeComentarios = commentarios.map(comment => {
+    return `
+      <li class="collection-item avatar">
+        <i class="material-icons circle red">play_arrow</i>
+        <span class="title">Title</span>
+        <p>${comment.content}</p>
+      </li>
+    `
+  })
+  document.querySelector(".collection").innerHTML = listaDeComentarios.join('')
 }
 
 window.createSocket = createSocket
