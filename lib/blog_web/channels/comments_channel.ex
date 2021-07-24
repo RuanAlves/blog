@@ -17,7 +17,11 @@ defmodule BlogWeb.CommentsChannel do
     |> Comments.create_comment(content)
 
     case response do
-      {:ok, _comment} ->
+      {:ok, comment} ->
+
+        # Envia o comentário criado para todos os sockets que estão no canal "comments:"<> post_id
+        broadcast!(socket, "comments:#{socket.assigns.post_id}:new", %{comment: comment})
+
         {:reply, :ok, socket}
       {:error, changeset} ->
         {:reply, {:error, %{erros: changeset}}}

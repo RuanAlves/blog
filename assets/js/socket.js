@@ -65,26 +65,40 @@ const createSocket = (post_id) => {
     })
     .receive("error", resp => { console.log("Unable to join", resp) })
 
+    /**
+     * Recebe um evento de um comentário criado, assim não precisando atualizar a página, apenas inclui o novo comentário na lista
+     **/
+    channel.on(`comments:${post_id}:new`, (response) => {
+      incluirComentario(response)  
+    })
+
     document.getElementById("btn-comentar").addEventListener("click", () => {
       const content = document.getElementById("comentario").value
       channel.push("comment:add", {content: content})
       document.getElementById("comentario").value = ""
     })
-    
-
+  
 }
 
 function pegarComentarios(commentarios) {
   const listaDeComentarios = commentarios.map(comment => {
-    return `
-      <li class="collection-item avatar">
-        <i class="material-icons circle red">play_arrow</i>
-        <span class="title">Title</span>
-        <p>${comment.content}</p>
-      </li>
-    `
+    return template(comment)
   })
   document.querySelector(".collection").innerHTML = listaDeComentarios.join('')
+}
+
+function template(comment) {
+  return `
+  <li class="collection-item avatar">
+    <i class="material-icons circle red">play_arrow</i>
+    <span class="title">Title</span>
+    <p>${comment.content}</p>
+  </li>
+`
+}
+
+function incluirComentario(event) {
+  document.querySelector(".collection").innerHTML += template(event.comment)
 }
 
 window.createSocket = createSocket
