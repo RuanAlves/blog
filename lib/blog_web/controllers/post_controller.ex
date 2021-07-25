@@ -67,22 +67,22 @@ defmodule BlogWeb.PostController do
     - Imprima o 5 elemento da lista e o segundo elemento da Tupla​
   """
   # coveralls-ignore-start
-  def _new_exercicios(conn, _params) do
-    # Jeito que fiz
-    terceiro_elemento_lista = Enum.at(conn.req_headers, 3)
-    quinto_elemento = Enum.at(conn.req_headers, 5)
+  # def _new_exercicios(conn, _params) do
+  #   # Jeito que fiz
+  #   terceiro_elemento_lista = Enum.at(conn.req_headers, 3)
+  #   quinto_elemento = Enum.at(conn.req_headers, 5)
 
-    IO.inspect(terceiro_elemento_lista)
-    IO.inspect(quinto_elemento)
-    IO.inspect(elem(quinto_elemento, 1))
+  #   IO.inspect(terceiro_elemento_lista)
+  #   IO.inspect(quinto_elemento)
+  #   IO.inspect(elem(quinto_elemento, 1))
 
-    # Jeito mais enxuto
-    {element, list} = List.pop_at(conn.req_headers, 5)
-    {first, second} = element
-    IO.inspect(second)
+  #   # Jeito mais enxuto
+  #   {element, list} = List.pop_at(conn.req_headers, 5)
+  #   {first, second} = element
+  #   IO.inspect(second)
 
-    render(conn, "new.html")
-  end
+  #   render(conn, "new.html")
+  # end
 
   # coveralls-ignore-stop
 end
