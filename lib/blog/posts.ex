@@ -7,6 +7,9 @@ defmodule Blog.Posts do
 
   def get_post!(id), do: Repo.get!(Post, id)
 
+  @doc """
+   - Retorna um post específico junto com seus comentários
+  """
   def get_post_with_comments!(id) do
     get_post!(id)
     |> Repo.preload(:comments)

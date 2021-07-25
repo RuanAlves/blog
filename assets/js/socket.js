@@ -59,6 +59,10 @@ socket.connect()
 const createSocket = (post_id) => {
 
   let channel = socket.channel(`comments:${post_id}`, {})
+
+  /**
+   * Listando comentarios, irá se comunicar com o servidor e buscar os comentarios pela funcão Joint (BlogWeb.CommentsChannel.join)
+   */
   channel.join()
     .receive("ok", resp => { 
       pegarComentarios(resp.comments)
@@ -72,6 +76,9 @@ const createSocket = (post_id) => {
       incluirComentario(response)  
     })
 
+    /**
+    * Pegando o envento do post
+    */
     document.getElementById("btn-comentar").addEventListener("click", () => {
       const content = document.getElementById("comentario").value
       channel.push("comment:add", {content: content})
