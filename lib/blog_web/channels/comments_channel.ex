@@ -1,6 +1,6 @@
 defmodule BlogWeb.CommentsChannel do
   use BlogWeb, :channel
-  alias Blog.{Posts, Comments}
+  alias Blog.{Comments, Posts}
 
   def join("comments:" <> post_id, _payload, socket) do
     post = Posts.get_post_with_comments!(post_id)
