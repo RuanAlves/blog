@@ -1,7 +1,8 @@
 defmodule BlogWeb.AuthController do
   use BlogWeb, :controller
 
-  plug Ueberauth #Para usar o 'requeste`, apenas chamar esse plug
+  # Para usar o 'requeste`, apenas chamar esse plug
+  plug Ueberauth
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, %{"provider" => provider}) do
     user = %{
@@ -10,11 +11,10 @@ defmodule BlogWeb.AuthController do
       first_name: auth.info.first_name,
       last_name: auth.info.last_name,
       image: auth.info.image,
-      provider: auth.provider,
+      provider: auth.provider
     }
 
     IO.inspect(user)
     render(conn, "index.html")
   end
-
 end
