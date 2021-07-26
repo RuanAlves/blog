@@ -55,9 +55,57 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
 
-export default socket
+const createSocket = (post_id) => {
+
+  let channel = socket.channel(`comments:${post_id}`, {})
+
+  /**
+   * Listando comentarios, irá se comunicar com o servidor e buscar os comentarios pela funcão Joint (BlogWeb.CommentsChannel.join)
+   */
+  channel.join()
+    .receive("ok", resp => { 
+      pegarComentarios(resp.comments)
+    })
+    .receive("error", resp => { console.log("Unable to join", resp) })
+
+    /**
+     * Recebe um evento de um comentário criado, assim não precisando atualizar a página, apenas inclui o novo comentário na lista
+     **/
+    channel.on(`comments:${post_id}:new`, (response) => {
+      incluirComentario(response)  
+    })
+
+    /**
+    * Pegando o envento do post
+    */
+    document.getElementById("btn-comentar").addEventListener("click", () => {
+      const content = document.getElementById("comentario").value
+      channel.push("comment:add", {content: content})
+      document.getElementById("comentario").value = ""
+    })
+  
+}
+
+function pegarComentarios(commentarios) {
+  const listaDeComentarios = commentarios.map(comment => {
+    return template(comment)
+  })
+  document.querySelector(".collection").innerHTML = listaDeComentarios.join('')
+}
+
+function template(comment) {
+  return `
+  <li class="collection-item avatar">
+    <i class="material-icons circle red">play_arrow</i>
+    <span class="title">Title</span>
+    <p>${comment.content}</p>
+  </li>
+`
+}
+
+function incluirComentario(event) {
+  document.querySelector(".collection").innerHTML += template(event.comment)
+}
+
+window.createSocket = createSocket
